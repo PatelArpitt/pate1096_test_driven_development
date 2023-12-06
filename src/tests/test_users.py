@@ -59,3 +59,25 @@ def test_all_users(test_app, test_database, add_user):
     assert 'john@algonquincollege.com' in data[0]['email']
     assert 'fletcher' in data[1]['username']
     assert 'fletcher@notreal.com' in data[1]['email']
+
+# function to UPDATE user
+def test_update_user(test_app, test_database, add_user):
+    # create a username with name as 'arpit' and email as 'arpit@algonquincollege.com'
+    user = add_user('arpit', 'arpit@algonquincollege.com')
+    
+    # setting up a client using function 'test_client'
+    client = test_app.test_client()
+
+    # creating a PUT request to update user's userrname to 'Arpit123' and email to 'arpit@gmail.com'
+    resp = client.put(
+        f'/users/{user.id}',
+        data = json.dumps({
+            'username': 'Arpit123',
+            'email': 'arpit@gmail.com'
+        }),
+        content_type='application/json',
+    )
+
+    # parse the response data
+    data = json.loads(resp.data.decode())
+    assert resp.status_code == 200, f'The email of the user updated to {data["email"]}. The username of the user has been updated to {data["username"]}' in data.get('message')

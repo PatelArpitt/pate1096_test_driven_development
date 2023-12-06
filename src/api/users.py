@@ -52,7 +52,6 @@ class Users(Resource):
                 'message': f'The email of the user updated to {email}. The password of the user updated to {username}'
             },200
 
-
 class UsersList(Resource):
     @api.expect(user, validate=True)  # new
     def post(self):
